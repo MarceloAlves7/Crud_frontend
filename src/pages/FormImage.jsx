@@ -8,8 +8,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import UploadButtons from '../components/UploadButtons';
 import ResponsiveAppBar from '../components/ResponsiveAppBar'
-import { createContext, useState} from 'react';
-import api from "../services/api"
+import {  useState} from 'react';
+import {api} from "../services/api"
 
 
 function Copyright(props) {
@@ -49,7 +49,7 @@ export default function FormImage() {
       }
     }
 
-    await api.post("http://127.0.0.1:8000/api/users/2/images/uploadfiles/", formData, headers )
+    await api.post("users/2/images/uploadfiles/", formData, headers )
     
     
       

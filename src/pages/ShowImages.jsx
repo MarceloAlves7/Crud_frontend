@@ -5,8 +5,7 @@ import Typography from '@mui/material/Typography';
 import { Stack, Container } from "@mui/material";
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import ListImages from '../components/ListImages'
-import axios from "axios";
-import api from "../services/api";
+import {api} from "../services/api";
 
 
 
@@ -18,7 +17,7 @@ export default function ShowImages() {
 
    useEffect(() => {
         api
-            .get("http://127.0.0.1:8000/api/users/2/images")
+            .get("users/2/images")
             .then((res) => setImages(res.data))
             .catch((err) => console.log(err))
         

@@ -12,13 +12,18 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Link } from '@mui/material';
 import { Stack } from '@mui/system';
+import { AuthContext } from '../contexts/auth';
 
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const {logout} = React.useContext(AuthContext)
+
+  const handleLogout = () => {
+    logout()
+  }
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -34,6 +39,7 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
 
   return (
     <AppBar position="static">
@@ -160,7 +166,7 @@ const ResponsiveAppBar = () => {
                 <MenuItem onClick={handleCloseUserMenu}>
                   
                   <Stack>   
-                  <Button href="/" underline="none" >Logout</ Button>
+                  <Button onClick={handleLogout}  underline="none" >Logout</ Button>
                   </Stack>
 
                 </MenuItem>
