@@ -27,7 +27,7 @@ function Copyright(props) {
 
 
 export default function LoginPage() {
-  const { authenticaded, login} =  useContext(AuthContext) 
+  const { login } =  useContext(AuthContext) 
 
 
   const [email, setEmail] = useState("");
@@ -60,7 +60,6 @@ export default function LoginPage() {
           <Typography component="h1" variant="h5">
             Fazer Login
           </Typography>
-          <p>{String(authenticaded)}</p>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               onChange={(e) => setEmail(e.target.value)}

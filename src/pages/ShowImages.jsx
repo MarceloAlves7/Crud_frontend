@@ -15,10 +15,21 @@ import {api} from "../services/api";
 
 export default function ShowImages() {
     const [images, setImages] = useState([]);
+    const user_id = localStorage.getItem("user_id")
+    const tokenUser = localStorage.getItem("token")
+
+    const headers = {
+        "headers": {
+          'Content-Type': 'file.type',
+          Authorization: `Bearer ${tokenUser}`
+          
+        }
+      }
+
 
    useEffect(() => {
         api
-            .get("users/2/images")
+            .get(`users/${user_id}/images`, headers)
             .then((res) => setImages(res.data))
             .catch((err) => console.log(err))
         
@@ -30,27 +41,14 @@ export default function ShowImages() {
     return (
         <Fragment>
             <ResponsiveAppBar/>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <Box
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-                >
-                <Typography component="h1" variant="h4" textAlign="center" >
-                    Detalhe
-                    <h4>Minhas Imagens</h4>
-                </Typography>
-                </Box>
-            </Container>
             <Container maxWidth="xl">
                 <Stack marginTop="100px" textAlign="center" className="stack">
-                
+                <h1>Minhas Imagens</h1>
                 {images.map((image) => (
-                    <ListImages nameImage={image.nameImage} image={image.image}/>
+                    <ListImages key={image.image}
+                    nameImage={image.nameImage} 
+                    image={image.image}
+                    />
                 ))}
                               
                 </Stack>

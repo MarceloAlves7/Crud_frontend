@@ -4,12 +4,12 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function ListImages({nameImage, image}) {
   return (
-    <ImageList sx={{ width: 500, height: 450, margin: 'auto',  }} text-aligh="center">
-      <ImageListItem key="Subheader" cols={2}>
-      </ImageListItem>
+    <ImageList sx={{ width: "100%",  margin: 'auto', ml:"27%", mt:10 }} cols={2} >
+      
         <ImageListItem> 
           <img
             src={`${image}?w=248&fit=crop&auto=format`}
@@ -20,12 +20,21 @@ export default function ListImages({nameImage, image}) {
           <ImageListItemBar
             title={nameImage}
             actionIcon={
-              <IconButton
-                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                aria-label={`info about ${nameImage}`}
-              >
-                <InfoIcon />
-              </IconButton>
+              
+              <>
+                <IconButton
+                        sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                        aria-label={`info about ${nameImage}`}>
+                        <InfoIcon />
+                </IconButton>
+
+                <IconButton
+                        sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                        >
+                        <DeleteIcon />
+                </IconButton>
+              </>
+              
             }
           />
         </ImageListItem>

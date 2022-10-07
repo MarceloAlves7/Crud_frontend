@@ -8,9 +8,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import UploadButtons from '../components/UploadButtons';
 import ResponsiveAppBar from '../components/ResponsiveAppBar'
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {api} from "../services/api"
-import {AuthProvider} from "../contexts/auth"
 
 
 function Copyright(props) {
@@ -30,7 +29,13 @@ function Copyright(props) {
 export default function FormImage() {
   const [image, setImage] = useState('');
   const [name, setName]= useState('')
-  const {token} = useContext(AuthProvider)
+  const user_id = localStorage.getItem("user_id")
+  const tokenUser = localStorage.getItem("token")
+  const [success, setSuccess] = useState();
+  const [error, setError] = useState("");
+
+
+
 
 
   
@@ -39,31 +44,43 @@ export default function FormImage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Upload Imagem")
-    
-    const formData = new FormData();
-    formData.append('image', image)
-    formData.append('nameImage', name )
+    //console.log("Upload Imagem")
+    //console.log(user_id)
+    //console.log(tokenUser)
     
     
 
-    const headers = {
-      "headers": {
-        'Content-Type': 'file.type',
-        Authorization: `Bearer ${token}`
-        
-      }
-    }
-
-    await api.post("users/2/images/uploadfiles/", formData, headers )
-    
-    
+    if(!name || !image){
+      setError('Preencha todos os campos!')
+    }else {
+      setError('')
+      const formData = new FormData();
+      formData.append('image', image)
+      formData.append('nameImage', name )
       
-
-
-
-
-    
+      
+  
+      const headers = {
+        "headers": {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${tokenUser}`
+          
+        }
+      }
+  
+      await api.post(`users/${user_id}/images/uploadfiles/`, formData, headers )
+      .then((response) => {
+        if(response.status === 201){
+          setSuccess("Imagem salva com sucesso!");
+          setError("");
+        }
+      })
+      .catch((e) => {
+        setError(e.response.data["error"]);
+        setSuccess("");
+      });
+      
+    }
   };
 
   return (
@@ -113,8 +130,11 @@ export default function FormImage() {
                     >
                     Salvar
                     </Button>
+                    {error && <span style={{ color: "red" }}>{error}</span>}
+                    {success && <span style={{ color: "green" }}>{success}</span>}
                 </Box>
                 </Box>
+                
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
         

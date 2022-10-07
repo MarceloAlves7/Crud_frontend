@@ -9,9 +9,9 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useState} from 'react';
 import {api} from '../services/api';
+import { useNavigate } from "react-router-dom";
 
 
 function Copyright(props) {
@@ -30,30 +30,65 @@ function Copyright(props) {
 
 
 export default function SignUp() {
+    const navigate = useNavigate()
     const [username, setUsername] = useState('');
     const [full_name, setFull_ame]= useState('')
     const [email, setEmail] = useState('');
     const [password, setPassword]= useState('')
+    const [password_confirm, setPasswordConfirm] = useState("");
+    const [success, setSuccess] = useState();
+    const [error, setError] = useState("");
+  
 
     const handleSubmit = async (event) => {
       event.preventDefault();
-      console.log("Enviando form")
 
+      if (
+        username === "" ||
+        full_name === "" ||
+        email === "" ||
+        password === "" ||
+        password_confirm === ""
+      ){
+        setError("Preencha todos os campos!");
 
-      const formData = new FormData();
-      formData.append('username', username)
-      formData.append('full_name', full_name)
-      formData.append('email', email)
-      formData.append('password', password)
+      } else if (password !== password_confirm) {
 
-      const headers = {
-        "headers": {
-          'Content-Type': "application/json"
+        setError("As senhas devem ser iguais!");
+
+      } else{
+        const formData = new FormData();
+        formData.append('username', username)
+        formData.append('full_name', full_name)
+        formData.append('email', email)
+        formData.append('password', password)
+  
+        const headers = {
+          "headers": {
+            'Content-Type': "application/json",
+              
+          }
         }
+  
+      await api.post( "http://127.0.0.1:8000/api/users/", formData, headers)
+      .then((response) => {
+        if(response.status === 201){
+          setSuccess("Imagem salva com sucesso!");
+          setError("");
+        }
+      })
+      .catch((e) => {
+        setError(e.response.data["error"]);
+        setSuccess("");
+      });
+      
+      navigate('/entrar') 
       }
 
-    await api.post( "http://127.0.0.1:8000/api/users/", formData, headers)
-     
+       
+
+    
+
     };
   
     return (
@@ -133,6 +168,20 @@ export default function SignUp() {
                     autoComplete="new-password"
                   />
                 </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    onChange={(e) => {
+                      setPasswordConfirm(e.target.value);
+                    }}
+                    required
+                    fullWidth
+                    name="password_confirm"
+                    label="Confirme sua Senha"
+                    type="password"
+                    id="password_confirm"
+                    autoComplete="new-password"
+                  />
+                </Grid>
                 
               </Grid>
               <Button
@@ -141,8 +190,9 @@ export default function SignUp() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Cadastre-se
+                Cadastrar
               </Button>
+              {error && <span style={{ color: "red" }}>{error}</span>}
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link href="/entrar" variant="body2">

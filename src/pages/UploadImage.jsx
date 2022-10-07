@@ -6,7 +6,7 @@ import {AuthProvider} from "../contexts/auth"
 const UploadImage = () => {
   const [name, setName] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
-  const {token} = React.useContext(AuthProvider)
+  const {token, loggedUser} = React.useContext(AuthProvider)
   
 
   const sendData = () => {
@@ -20,7 +20,7 @@ const UploadImage = () => {
                   Authorization: `Bearer ${token}`,
     },
       data: data,
-      url: "2/images/uploadfiles/",
+      url: `2/images/uploadfiles/`,
       baseURL: "http://127.0.0.1:8000/api/users/",
     };
     axios(options)

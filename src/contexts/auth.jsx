@@ -23,7 +23,7 @@ export const AuthProvider = ({children}) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const recoverdUser = localStorage.getItem("user")
+        const recoverdUser = localStorage.getItem("user_id")
 
         if (recoverdUser){
             setUser(JSON.parse(recoverdUser))
@@ -40,18 +40,18 @@ export const AuthProvider = ({children}) => {
 
         const token = response.data.access
 
-        const loggedUser = parseJwt(token).user_id
+        const loggedUserId = parseJwt(token).user_id
 
-        console.log(loggedUser, token)
+        console.log(loggedUserId, token)
 
-        localStorage.setItem("user", JSON.stringify(loggedUser))
+        localStorage.setItem("user_id", JSON.stringify(loggedUserId))
         localStorage.setItem("token", token)
 
         api.defaults.headers.Authorization = `Bearer ${token}`
 
 
         
-        setUser(loggedUser)
+        setUser(loggedUserId)
         navigate("/dashboard")
         
         };
@@ -59,7 +59,7 @@ export const AuthProvider = ({children}) => {
   
     const logout = () => {
       console.log("Logout")
-      localStorage.removeItem("user")
+      localStorage.removeItem("user_id")
       localStorage.removeItem("token")
 
 
