@@ -8,8 +8,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import UploadButtons from '../components/UploadButtons';
 import ResponsiveAppBar from '../components/ResponsiveAppBar'
-import {  useState} from 'react';
+import React, { useState, useContext } from "react";
 import {api} from "../services/api"
+import {AuthProvider} from "../contexts/auth"
 
 
 function Copyright(props) {
@@ -29,6 +30,9 @@ function Copyright(props) {
 export default function FormImage() {
   const [image, setImage] = useState('');
   const [name, setName]= useState('')
+  const {token} = useContext(AuthProvider)
+
+
   
 
 
@@ -45,7 +49,9 @@ export default function FormImage() {
 
     const headers = {
       "headers": {
-        'Content-Type': 'file.type'
+        'Content-Type': 'file.type',
+        Authorization: `Bearer ${token}`
+        
       }
     }
 

@@ -12,6 +12,7 @@ import {api} from "../services/api";
 
 
 
+
 export default function ShowImages() {
     const [images, setImages] = useState([]);
 
@@ -39,16 +40,15 @@ export default function ShowImages() {
                     alignItems: 'center',
                 }}
                 >
-                <Typography component="h1" variant="h4">
+                <Typography component="h1" variant="h4" textAlign="center" >
                     Detalhe
+                    <h4>Minhas Imagens</h4>
                 </Typography>
                 </Box>
             </Container>
-            <Container maxWidth="sm">
-            </Container>
             <Container maxWidth="xl">
                 <Stack marginTop="100px" textAlign="center" className="stack">
-                <h1>Minhas Imagens</h1>
+                
                 {images.map((image) => (
                     <ListImages nameImage={image.nameImage} image={image.image}/>
                 ))}

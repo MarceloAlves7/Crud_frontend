@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import { Button, Container, Paper, TextField, Typography } from "@mui/material";
 import axios from "axios";
+import {AuthProvider} from "../contexts/auth"
 const UploadImage = () => {
   const [name, setName] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const {token} = React.useContext(AuthProvider)
+  
 
   const sendData = () => {
     const data = {
@@ -13,7 +16,9 @@ const UploadImage = () => {
     };
     const options = {
       method: "POST",
-      headers: { "content-type": "multipart/form-data" },
+      headers: { "content-type": "multipart/form-data",
+                  Authorization: `Bearer ${token}`,
+    },
       data: data,
       url: "2/images/uploadfiles/",
       baseURL: "http://127.0.0.1:8000/api/users/",
