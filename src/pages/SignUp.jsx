@@ -70,26 +70,21 @@ export default function SignUp() {
           }
         }
   
-      await api.post( "http://127.0.0.1:8000/api/users/", formData, headers)
-      .then((response) => {
-        if(response.status === 201){
-          setSuccess("Imagem salva com sucesso!");
-          setError("");
-        }
-      })
-      .catch((e) => {
-        setError(e.response.data["error"]);
-        setSuccess("");
-      });
-      
-      navigate('/entrar') 
-      }
+      await api
+              .post("users/", formData, headers)
 
-       
-
-    
-
-    };
+              .then((response) => {
+                if(response.status === 201){
+                setSuccess("Usuário cadastrado com sucesso!");
+                setError("");}})
+                
+              .catch((e) => {
+                setError(e.response.data["error"]);
+                setSuccess("");});
+          
+          navigate('/entrar')
+          }
+        };
   
     return (
       
@@ -114,9 +109,7 @@ export default function SignUp() {
                 <Grid item xs={12}>
                   <TextField
                     onChange={(e) => {
-                      setUsername(e.target.value);
-                      console.log(e.target.value)
-                    }}
+                      setUsername(e.target.value);                    }}
                     autoComplete="given-name"
                     name="usuario"
                     required
@@ -130,7 +123,6 @@ export default function SignUp() {
                   <TextField
                     onChange={(e) => {
                       setFull_ame(e.target.value);
-                      console.log(e.target.value)
                     }}
                     required
                     fullWidth
@@ -144,7 +136,6 @@ export default function SignUp() {
                   <TextField
                     onChange={(e) => {
                       setEmail(e.target.value);
-                      console.log(e.target.value)
                     }}
                     required
                     fullWidth
@@ -193,6 +184,7 @@ export default function SignUp() {
                 Cadastrar
               </Button>
               {error && <span style={{ color: "red" }}>{error}</span>}
+              {success && <span style={{ color: "green" }}>{success}</span>}
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link href="/entrar" variant="body2">

@@ -31,7 +31,7 @@ export default function FormImage() {
   const [name, setName]= useState('')
   const user_id = localStorage.getItem("user_id")
   const tokenUser = localStorage.getItem("token")
-  const [success, setSuccess] = useState();
+  const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
 

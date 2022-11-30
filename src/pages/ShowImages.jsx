@@ -7,12 +7,6 @@ import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import ListImages from '../components/ListImages'
 import {api} from "../services/api";
 
-
-
-
-
-
-
 export default function ShowImages() {
     const [images, setImages] = useState([]);
     const user_id = localStorage.getItem("user_id")
@@ -26,7 +20,6 @@ export default function ShowImages() {
         }
       }
 
-
    useEffect(() => {
         api
             .get(`users/${user_id}/images`, headers)
@@ -35,8 +28,6 @@ export default function ShowImages() {
         
         //eslint-disable-next-line react-hooks/exhaustive-deps
    }, [images.length])
-
-
    
     return (
         <Fragment>
@@ -48,6 +39,7 @@ export default function ShowImages() {
                     <ListImages key={image.image}
                     nameImage={image.nameImage} 
                     image={image.image}
+                    id_Image={image.id}
                     />
                 ))}
                               
