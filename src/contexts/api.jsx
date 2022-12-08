@@ -59,7 +59,6 @@ export const ApiProvider = ({ children }) => {
   };
 
   const apiDelete = ({ url, token }) => {
-    console.log('DELETE')
     axios({
       method: "DELETE",
       headers: {

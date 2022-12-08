@@ -1,12 +1,13 @@
 //Import React
-import React, { useEffect, useState, Fragment} from "react";
+import React, { useEffect, useState} from "react";
 //Import MaterialUI
 import { Stack, Container } from "@mui/material";
 //Import services
 import {api} from "../services/api";
 //Import components
-import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import ListImages from '../components/ListImages'
+import ImageList from '@mui/material/ImageList';
+
 
 export default function ShowImages() {
     const [images, setImages] = useState([]);
@@ -21,7 +22,7 @@ export default function ShowImages() {
       }
 
 
-   //Hook que chama as imagens assim que a página carrega   
+   //Hook que chama as imagens assim que a página carrega           
    useEffect(() => {
         api
             .get(`users/${user_id}/images`, headers)
@@ -33,20 +34,23 @@ export default function ShowImages() {
    
    //Renderização da página
     return (
-        <Fragment>
-            <Container maxWidth="xl" sx={{background:"#ccc"}}>
-                <Stack marginTop="100px" textAlign="center" className="stack">
-                <h1>Minhas Imagens</h1>
+        <>
+            <Container maxWidth="xl">
+                <Stack textAlign="center" className="stack" >
+                <h1 >Minhas Imagens </h1>
+                </Stack>
+
+            <ImageList sx={{width: 1000, height: 450, margin:"auto" }}>
                 {images.map((image) => (
                     <ListImages key={image.image}
                     nameImage={image.nameImage} 
                     image={image.image}
                     id_Image={image.id}
                     />
-                ))}               
-                </Stack>
+                ))}
+            </ImageList>               
             </Container>
-        </Fragment>
+        </>
         
     )
 }

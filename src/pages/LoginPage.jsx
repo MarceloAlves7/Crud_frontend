@@ -1,6 +1,9 @@
+//Imports MaterialUI
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
@@ -8,40 +11,55 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+//Imports react
 import React, { useState, useContext} from "react";
+//Imports Context
 import { AuthContext } from "../contexts/auth"
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit">
-        ImagesUp
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
+//Import components
+import Copyright from '../components/Copyright';
 
 
 export default function LoginPage() {
-  const { login } =  useContext(AuthContext) 
+  const { login } =  useContext(AuthContext) // Estado que seta o context para login, para logar 
+  const [email, setEmail] = useState(""); //Estado que seta email
+  const [password, setPassword] = useState("");// Esado que seta a senha
+  const [showPassword, setShowPassword] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false); //Estado para controlar o Snackbar de erro quando dados não forem encontrados.
+  const [error, setError] = useState("");//Estado para mensagem de erro
 
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  
 
 
-  const handleSubmit = (event) => {
+  const handlePassword = () => setShowPassword(!showPassword);
+
+
+  //Função que passa os parametros(email e senha) para a função login
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("submit", {email, password})
-    login(email, password)
+    try {
+      await login(email, password)
+      
+    } catch (err) {
+      setError('Usuário ou senha incorretos')
+      setOpenAlert(true)
+    }
     
   };
 
+  //Funções para controlar a abertura e fechamento do Alert Snackbar.
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+        return;
+    }
+    setOpenAlert(false);
+};
+
+
+  //Renderização da pagina de login
   return (
     
       <Container component="main" maxWidth="xs">
@@ -79,7 +97,7 @@ export default function LoginPage() {
               fullWidth
               name="password"
               label="Senha"
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               autoComplete="current-password"
             />
@@ -107,6 +125,11 @@ export default function LoginPage() {
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Snackbar open={openAlert} autoHideDuration={3000} disableWindowBlurListener={true} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+                  {error}
+                </Alert>
+        </Snackbar>
       </Container>
     
   );

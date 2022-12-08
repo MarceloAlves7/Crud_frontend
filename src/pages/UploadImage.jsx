@@ -25,13 +25,11 @@ const UploadImage = () => {
     };
     axios(options)
       .then((response) => {
-        console.log(response);
       })
-      .catch((response) => console.log(response));
+      .catch();
   };
   return (
     <>
-      <ResponsiveAppBar/>
       <Paper
         sx={{
           mt: 12,

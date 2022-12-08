@@ -33,7 +33,6 @@ function Routers() {
           <Route path="/" element={<SignUp />} />
           <Route path="/entrar" element={<LoginPage />} />
           <Route path="/dashboard" element={<Private><Dashboard /></Private>} />
-          <Route path="/dashboard/minhas-imagens" element={ <Private><ShowImages /></Private>} />
           <Route path="/dashboard/salvar-imagens" element={ <Private><FormImage /></Private>} />
         </Routes>
      </AuthProvider>

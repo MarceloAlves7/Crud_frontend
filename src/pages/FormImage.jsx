@@ -44,11 +44,6 @@ export default function FormImage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    //console.log("Upload Imagem")
-    //console.log(user_id)
-    //console.log(tokenUser)
-    
-    
 
     if(!name || !image){
       setError('Preencha todos os campos!')
@@ -86,7 +81,6 @@ export default function FormImage() {
   return (
 
       <Fragment>
-        <ResponsiveAppBar/>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
@@ -104,7 +98,6 @@ export default function FormImage() {
                     <TextField
                     onChange={(e) => {
                       setName(e.target.value);
-                      console.log(e.target.value)
                     }}
                     margin="normal"
                     required
@@ -117,7 +110,6 @@ export default function FormImage() {
                     <UploadButtons
                     onChange={(e) => {
                       setImage(e.target.files[0]);
-                      console.log(e.target.files[0]);
                     }}
                     
                     />

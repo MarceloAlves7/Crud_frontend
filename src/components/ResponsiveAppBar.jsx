@@ -118,13 +118,6 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             
               <Button
-                href="/dashboard/minhas-imagens"
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                Minhas Fotos
-              </Button>
-              <Button
                 href="/dashboard/salvar-imagens"
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}

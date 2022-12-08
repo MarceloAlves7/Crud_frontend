@@ -1,4 +1,8 @@
+//Import React
 import * as React from 'react';
+import {useState} from 'react';
+import { useNavigate } from "react-router-dom";
+//Import MaterialUI
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,37 +13,27 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {useState} from 'react';
+import MuiAlert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+//Import services
 import {api} from '../services/api';
-import { useNavigate } from "react-router-dom";
-
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit">
-        ImagesUp
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
+//Import components
+import Copyright from '../components/Copyright';
 
 
 export default function SignUp() {
-    const navigate = useNavigate()
-    const [username, setUsername] = useState('');
-    const [full_name, setFull_ame]= useState('')
-    const [email, setEmail] = useState('');
-    const [password, setPassword]= useState('')
-    const [password_confirm, setPasswordConfirm] = useState("");
-    const [success, setSuccess] = useState();
-    const [error, setError] = useState("");
+    const navigate = useNavigate() //Hook para nagevação
+    const [username, setUsername] = useState('');//Estado para setar nome
+    const [full_name, setFull_ame]= useState('')//Estado para setar nome completo
+    const [email, setEmail] = useState('');//Estado para setar email
+    const [password, setPassword]= useState('')//Estado para setar senha
+    const [password_confirm, setPasswordConfirm] = useState("");//Estado para setar confirmação de senha
+    const [success, setSuccess] = useState();//Estado para mensagem de sucesso
+    const [openAlert, setOpenAlert] = useState(false); //Estado para controlar o Snackbar de erro quando dados não forem encontrados.
+    const [error, setError] = useState("");//Estado para mensagem de erro
   
 
+    //Funcao para enviar os dados do formulário
     const handleSubmit = async (event) => {
       event.preventDefault();
 
@@ -51,10 +45,13 @@ export default function SignUp() {
         password_confirm === ""
       ){
         setError("Preencha todos os campos!");
+        setOpenAlert(true)
 
       } else if (password !== password_confirm) {
 
         setError("As senhas devem ser iguais!");
+        setOpenAlert(true)
+
 
       } else{
         const formData = new FormData();
@@ -66,7 +63,6 @@ export default function SignUp() {
         const headers = {
           "headers": {
             'Content-Type': "application/json",
-              
           }
         }
   
@@ -80,12 +76,26 @@ export default function SignUp() {
                 
               .catch((e) => {
                 setError(e.response.data["error"]);
+                setOpenAlert(true)
                 setSuccess("");});
           
           navigate('/entrar')
           }
         };
+
+        //Funções para controlar a abertura e fechamento do Alert Snackbar.
+        const Alert = React.forwardRef(function Alert(props, ref) {
+            return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+        });
+
+        const handleClose = (event, reason) => {
+            if (reason === "clickaway") {
+                return;
+            }
+            setOpenAlert(false);
+        };
   
+    //Rendereização da Página
     return (
       
         <Container component="main" maxWidth="xs">
@@ -183,8 +193,6 @@ export default function SignUp() {
               >
                 Cadastrar
               </Button>
-              {error && <span style={{ color: "red" }}>{error}</span>}
-              {success && <span style={{ color: "green" }}>{success}</span>}
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link href="/entrar" variant="body2">
@@ -195,6 +203,11 @@ export default function SignUp() {
             </Box>
           </Box>
           <Copyright sx={{ mt: 5 }} />
+          <Snackbar open={openAlert} autoHideDuration={3000} disableWindowBlurListener={true} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+                    {error}
+                </Alert>
+        </Snackbar>
         </Container>
       
     );

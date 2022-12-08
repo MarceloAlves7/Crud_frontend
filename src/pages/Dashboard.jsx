@@ -1,12 +1,22 @@
 import React from "react";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
+import ShowImages from "../components/ShowImages";
+import CssBaseline from '@mui/material/CssBaseline';
 
-function Dashboard() {
+
+export default function Dashboard() {
  
-  
+  return (
+    <>
+      <CssBaseline />
+      <ResponsiveAppBar/>
+      <ShowImages/>
+    </>
+    
+  )
 
-  return <ResponsiveAppBar/>
+
 
   }
 
-export default Dashboard;
+
